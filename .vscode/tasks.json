@@ -1,0 +1,43 @@
+{
+    "tasks": [
+        {
+            "label": "CMake config",
+            "command": "cmake",
+            "args": [
+                "-S", "${workspaceFolder}",
+                "-B", "${workspaceFolder}/build/",
+                "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/install/"
+            ],
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": [ "$gcc" ],
+            "detail": "CMake configure"
+        },
+        {
+            "label": "CMake build all",
+            "command": "cmake",
+            "args": [
+                "--build", "${workspaceFolder}/build/",
+                "--parallel", "16"
+            ],
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": [ "$gcc" ],
+            "detail": "CMake build",
+            "dependsOrder": "sequence",
+            "dependsOn": ["CMake config"]
+        },
+        {
+            "label": "CMake build target",
+            "command": "cmake",
+            "args": [
+                "--build", "${workspaceFolder}/build/",
+                "--target", "${fileBasenameNoExtension}"
+            ],
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": [ "$gcc" ],
+            "detail": "CMake build",
+            "dependsOrder": "sequence",
+            "dependsOn": [ "CMake config" ]
+        }
+    ],
+    "version": "2.0.0"
+}

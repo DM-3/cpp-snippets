@@ -4,15 +4,25 @@
 
 
 
+inline size_t bitcount_iterative(uint64_t n)
+{
+    uint64_t res = 0;
+    for (; n; n >>= 1)
+        res += n & 1UL;
+    
+    return res;
+}
+
+
 inline size_t bitcount_parallel_add(uint64_t n)
 {
     const uint64_t m1 = 0x5555'5555'5555'5555;     // 0b0101'0101'...
     const uint64_t m2 = 0x3333'3333'3333'3333;     // 0b0011'0011'...
     const uint64_t m4 = 0x0f0f'0f0f'0f0f'0f0f;     // 0b0000'1111'...
 
-    n =  n       - ((n >> 1)  & 0x5555'5555'5555'5555);
-    n = (n & m2) + ((n >> 2)  & 0x3333'3333'3333'3333);
-    n = (n       +  (n >> 4)) & 0x0f0f'0f0f'0f0f'0f0f;
+    n =  n       - ((n >> 1)  & m1);
+    n = (n & m2) + ((n >> 2)  & m2);
+    n = (n       +  (n >> 4)) & m4;
     n =  n       +  (n >> 8);
     n =  n       +  (n >> 16);
 
@@ -73,6 +83,7 @@ int main()
     std::cout << "n: " << std::bitset<64>(n) << std::endl;
 
     // print bitcount results
+    std::cout << "bitcount iterative: "     << bitcount_iterative(n)    << std::endl;
     std::cout << "bitcount parallel add: "  << bitcount_parallel_add(n) << std::endl;
     std::cout << "bitcount multiply: "      << bitcount_mul(n)          << std::endl;
     std::cout << "bitcount bitset: "        << bitcount_bitset(n)       << std::endl;

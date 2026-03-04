@@ -68,9 +68,14 @@ int main()
 
     // prepare array of random elements
     auto array = new double[SIZE];
-
     for (size_t i = 0; i < SIZE; i++)
         array[i] = double(std::rand()) / RAND_MAX;
+
+    std::cout << "array size: " << SIZE << std::endl;
+    std::cout << "array: [";
+    for (size_t i = 0; i < 10; i++)
+        std::cout << array[i] << " ";
+    std::cout << "...]" << std::endl;
 
     // sort array
     radixSort(array, SIZE);
@@ -79,7 +84,12 @@ int main()
     bool sorted = true;
     for (size_t i = 1; i < SIZE && sorted; i++)
         sorted = array[i] >= array[i - 1];
+    
     std::cout << "sorted: " << (sorted ? "true" : "false") << std::endl;
+    std::cout << "array: [";
+    for (size_t i = 0; i < 10; i++)
+        std::cout << array[i] << " ";
+    std::cout << "...]" << std::endl;
 
     delete[] array;
 }
